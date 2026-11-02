@@ -405,6 +405,9 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
     confirmarSeleccion,
     finalizar,
     render({ multimeter, sistema, estado, referencia, objetivo, foco = null }) {
+      // La ayuda nunca debe quedar superpuesta a la bitácora.
+      if (bitacoraAbierta && !panelAyuda.classList.contains('oculto')) cerrarAyuda();
+
       if (objetivo && elObjetivoTexto.textContent !== objetivo) {
         elObjetivoTexto.textContent = objetivo;
         elObjetivoTexto.title = objetivo;
