@@ -323,13 +323,13 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
   }
 
   function abrirAyuda() {
-    if (bitacoraAbierta) return;
+    if (finalizada || bitacoraAbierta) return;
     panelAyuda.classList.remove('oculto');
     panelAyuda.setAttribute('aria-hidden', 'false');
   }
 
   function toggleAyuda() {
-    if (bitacoraAbierta) return;
+    if (finalizada || bitacoraAbierta) return;
     if (panelAyuda.classList.contains('oculto')) abrirAyuda();
     else cerrarAyuda();
   }
@@ -373,6 +373,7 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
   bAyuda.addEventListener('click', toggleAyuda);
   bCerrarAyuda.addEventListener('click', cerrarAyuda);
   window.addEventListener('keydown', (e) => {
+    if (finalizada) return;
     if (e.key === 'F1' || e.key === '?') {
       e.preventDefault();
       toggleAyuda();
@@ -390,6 +391,7 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
   }
 
   function abrirBitacora() {
+    if (finalizada) return;
     bitacoraAbierta = true;
     panelBitacora.classList.remove('oculto');
     actualizarBitacora();
@@ -413,7 +415,7 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
   }
 
   function confirmarSeleccion() {
-    if (!bitacoraAbierta || nombres.length === 0) return;
+    if (finalizada || !bitacoraAbierta || nombres.length === 0) return;
     actions.registrarDiagnostico(sistemaId, nombres[seleccion].id);
     mensaje.textContent = 'Diagnóstico registrado.';
     actualizarBitacora();
@@ -423,6 +425,12 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
     if (finalizada) return;
     finalizada = true;
     actions.finalizarSesion();
+    closeBitacora();
+    cerrarAyuda();
+    elAviso.classList.add('oculto');
+    root.querySelectorAll('button').forEach((btn) => {
+      btn.disabled = true;
+    });
     tiempoMs = performance.now() - inicioMs;
     diagnosticoFinal = actions.ultimoDiagnostico();
     const nombre = diagnosticoFinal ? nombreDeComponente(diagnosticoFinal.componenteId) : 'ninguno';

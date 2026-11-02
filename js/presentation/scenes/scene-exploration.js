@@ -1,5 +1,16 @@
 import { MOVE_COOLDOWN_MS } from '../../core/constants.js';
 
+export function puedeRepararFoco(foco, session, hipotesis, sistemaId) {
+  if (!foco || foco.tipo !== 'componente' || !foco.componente) return false;
+  if (session?.finalizada || session?.resuelto) return false;
+  return (
+    hipotesis !== null &&
+    hipotesis !== undefined &&
+    hipotesis.systemId === sistemaId &&
+    hipotesis.componenteId === foco.ref
+  );
+}
+
 export function createSceneExploration({
   state,
   actions,
@@ -47,22 +58,9 @@ export function createSceneExploration({
     }
   }
 
-  function puedeRepararFoco(foco) {
-    const session = state.get().session || {};
-    if (session.finalizada || session.resuelto) return false;
-    if (!foco || !foco.componente) return false;
-
-    const hipotesis = actions.ultimoDiagnostico();
-    return (
-      hipotesis !== null &&
-      hipotesis.systemId === sistemaId &&
-      hipotesis.componenteId === foco.ref
-    );
-  }
-
   function intentarReparar() {
     const { foco } = resolverFoco();
-    if (!foco || !foco.componente) return;
+    if (!foco || foco.tipo !== 'componente' || !foco.componente) return;
 
     const session = state.get().session || {};
     if (session.finalizada || session.resuelto) return;
@@ -89,6 +87,15 @@ export function createSceneExploration({
     update(dtMs) {
       elapsed += dtMs;
 
+      const session = state.get().session || {};
+      if (session.finalizada) return;
+
+      // Finalizar debe funcionar también con la bitácora abierta.
+      if (input.consume('finalizar')) {
+        hud.finalizar();
+        return;
+      }
+
       // Bitácora abierta: navegación de la lista (sin mover al jugador).
       if (hud.isBitacoraOpen()) {
         if (input.consume('arriba')) hud.moverSeleccion(-1);
@@ -100,10 +107,6 @@ export function createSceneExploration({
 
       if (input.consume('bitacora')) {
         hud.toggleBitacora();
-        return;
-      }
-      if (input.consume('finalizar')) {
-        hud.finalizar();
         return;
       }
       if (input.consume('polimetro')) multimeter.cambiarModo();
@@ -150,7 +153,12 @@ export function createSceneExploration({
         }
       }
 
-      const puedeReparar = puedeRepararFoco(foco);
+      const puedeReparar = puedeRepararFoco(
+        foco,
+        state.get().session || {},
+        actions.ultimoDiagnostico(),
+        sistemaId
+      );
 
       let voltajes = new Map();
       try {
