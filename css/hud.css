@@ -18,18 +18,65 @@
   display: none !important;
 }
 
-/* Objetivo */
+/* Objetivo compacto y descartable */
 .hud-objetivo {
   position: absolute;
   top: 8px;
   left: 8px;
-  max-width: 300px;
-  padding: 6px 8px;
-  background: rgba(11, 14, 17, 0.82);
+  max-width: 260px;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(11, 14, 17, 0.86);
   border: 1px solid #2A323A;
   border-radius: 4px;
   color: #C9D4DA;
-  line-height: 1.3;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.hud-objetivo.cerrado {
+  display: none;
+}
+
+.hud-objetivo-texto {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.hud-objetivo-cerrar {
+  flex: 0 0 auto;
+  min-width: 22px;
+  min-height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: #8A9AA3;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.hud-objetivo-cerrar:hover {
+  color: #E8EEF0;
+  background: #22303A;
+}
+
+.hud-objetivo-abrir {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  min-height: 24px;
+  padding: 3px 8px;
+  background: rgba(11, 14, 17, 0.9);
+  border: 1px solid #2A323A;
+  border-radius: 4px;
+  color: #C9D4DA;
+  font-size: 11px;
 }
 
 /* Polímetro */
@@ -37,17 +84,45 @@
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 170px;
+  width: 200px;
   padding: 8px;
   background: rgba(11, 14, 17, 0.88);
   border: 1px solid #2A323A;
   border-radius: 6px;
 }
 
+.hud-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
 .hud-modo {
   font-weight: 700;
   color: #F2B134;
-  margin-bottom: 4px;
+  font-size: 11px;
+  margin-bottom: 0;
+}
+
+.hud-ayuda-btn {
+  flex: 0 0 auto;
+  min-width: 30px;
+  min-height: 30px;
+  padding: 0;
+  border: 1px solid #3C4C58;
+  border-radius: 4px;
+  background: #22303A;
+  color: #C9D4DA;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.hud-ayuda-btn:hover {
+  color: #E8EEF0;
+  border-color: #7BC8F6;
 }
 
 .hud-modo.modo-continuidad {
@@ -73,6 +148,23 @@
   background: #22303A;
 }
 
+.hud-sonda.sonda-roja {
+  color: #E7A5A5;
+}
+
+.hud-sonda.sonda-negra {
+  color: #D7DEE3;
+}
+
+.hud-resultado-label {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  color: #8A9AA3;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
 .hud-lectura {
   font-family: ui-monospace, monospace;
   font-size: 16px;
@@ -84,6 +176,50 @@
   border-radius: 4px;
   color: #7BE38A;
   min-height: 26px;
+}
+
+.hud-lectura.lectura-valida {
+  color: #7BE38A;
+}
+
+.hud-lectura.lectura-invalida {
+  color: #F2B134;
+  border-color: #6B5426;
+  background: #1A160D;
+}
+
+.hud-lectura.lectura-pendiente {
+  color: #8A9AA3;
+}
+
+/* Banda de foco */
+.hud-foco {
+  position: absolute;
+  left: 50%;
+  bottom: 128px;
+  transform: translateX(-50%);
+  max-width: min(92%, 480px);
+  padding: 4px 8px;
+  background: rgba(11, 14, 17, 0.9);
+  border: 1px solid #2A323A;
+  border-radius: 4px;
+  color: #C9D4DA;
+  font-size: 11px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+.hud-foco-texto {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hud-foco-accion {
+  margin-left: 6px;
+  color: #F2B134;
 }
 
 /* Controles táctiles */
@@ -161,6 +297,94 @@
 .btn-finalizar {
   background: rgba(120, 60, 60, 0.9);
   border-color: #7A4040;
+}
+
+/* Ayuda contextual del polímetro */
+.hud-ayuda {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 340px;
+  max-width: 92%;
+  max-height: 400px;
+  overflow: auto;
+  padding: 12px;
+  background: rgba(11, 14, 17, 0.98);
+  border: 1px solid #3C4C58;
+  border-radius: 8px;
+  color: #E8EEF0;
+  pointer-events: auto;
+}
+
+.hud-ayuda-titulo {
+  margin-bottom: 8px;
+  color: #F2B134;
+  font-weight: 700;
+}
+
+.hud-ayuda-lista {
+  margin: 0 0 8px 18px;
+  padding: 0;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.hud-ayuda-lista li {
+  margin-bottom: 3px;
+}
+
+.hud-ayuda-nota {
+  margin-bottom: 8px;
+  color: #C9D4DA;
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.hud-leyenda {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 10px;
+  margin-bottom: 10px;
+}
+
+.hud-leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #C9D4DA;
+  font-size: 10px;
+}
+
+.hud-leyenda-chip {
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #14181C;
+  border-radius: 2px;
+}
+
+.chip-fuente {
+  background: #F2B134;
+}
+
+.chip-interruptor {
+  background: #7BC8F6;
+}
+
+.chip-carga {
+  background: #FFE27A;
+}
+
+.chip-medida {
+  background: #F2D14E;
+  border-radius: 50%;
+}
+
+.hud-ayuda-cerrar {
+  width: 100%;
+  min-height: 32px;
+  background: #22303A;
 }
 
 /* Bitácora */

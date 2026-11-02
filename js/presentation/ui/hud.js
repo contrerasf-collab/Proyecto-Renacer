@@ -64,31 +64,68 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
 
   root.innerHTML = '';
 
-  // Objetivo (arriba).
+  // Objetivo (arriba). Compacto y descartable: el texto completo queda en title.
   const elObjetivo = document.createElement('div');
   elObjetivo.className = 'hud-objetivo';
   root.appendChild(elObjetivo);
+
+  const elObjetivoTexto = document.createElement('span');
+  elObjetivoTexto.className = 'hud-objetivo-texto';
+  elObjetivo.appendChild(elObjetivoTexto);
+
+  const bCerrarObjetivo = document.createElement('button');
+  bCerrarObjetivo.type = 'button';
+  bCerrarObjetivo.className = 'hud-objetivo-cerrar';
+  bCerrarObjetivo.textContent = '×';
+  bCerrarObjetivo.setAttribute('aria-label', 'Cerrar objetivo');
+  bCerrarObjetivo.title = 'Cerrar objetivo';
+  elObjetivo.appendChild(bCerrarObjetivo);
+
+  const bAbrirObjetivo = document.createElement('button');
+  bAbrirObjetivo.type = 'button';
+  bAbrirObjetivo.className = 'hud-objetivo-abrir oculto';
+  bAbrirObjetivo.textContent = 'Objetivo';
+  bAbrirObjetivo.setAttribute('aria-label', 'Mostrar objetivo');
+  bAbrirObjetivo.title = 'Mostrar objetivo';
+  root.appendChild(bAbrirObjetivo);
 
   // Polímetro (arriba-derecha).
   const panel = document.createElement('div');
   panel.className = 'hud-panel';
   root.appendChild(panel);
 
+  const panelHeader = document.createElement('div');
+  panelHeader.className = 'hud-panel-header';
+  panel.appendChild(panelHeader);
+
   const elModo = document.createElement('div');
   elModo.className = 'hud-modo';
-  panel.appendChild(elModo);
+  panelHeader.appendChild(elModo);
+
+  const bAyuda = document.createElement('button');
+  bAyuda.type = 'button';
+  bAyuda.className = 'hud-ayuda-btn';
+  bAyuda.textContent = '?';
+  bAyuda.setAttribute('aria-label', 'Ayuda del polímetro');
+  bAyuda.title = 'Ayuda del polímetro (F1)';
+  panelHeader.appendChild(bAyuda);
 
   const elSondas = document.createElement('div');
   elSondas.className = 'hud-sondas';
   panel.appendChild(elSondas);
 
   const filaRoja = document.createElement('div');
-  filaRoja.className = 'hud-sonda';
+  filaRoja.className = 'hud-sonda sonda-roja';
   elSondas.appendChild(filaRoja);
 
   const filaNegra = document.createElement('div');
-  filaNegra.className = 'hud-sonda';
+  filaNegra.className = 'hud-sonda sonda-negra';
   elSondas.appendChild(filaNegra);
+
+  const elResultadoEtiqueta = document.createElement('div');
+  elResultadoEtiqueta.className = 'hud-resultado-label';
+  elResultadoEtiqueta.textContent = 'Lectura';
+  panel.appendChild(elResultadoEtiqueta);
 
   const elLectura = document.createElement('div');
   elLectura.className = 'hud-lectura';
@@ -134,6 +171,48 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
   acciones.appendChild(boton('Bitácora', 'btn-bitacora', () => input.press('bitacora'), () => input.release('bitacora')));
   acciones.appendChild(boton('Finalizar', 'btn-finalizar', () => finalizar()));
   touch.appendChild(acciones);
+
+  // Banda de foco: qué hay delante y qué acción se puede hacer.
+  const elFoco = document.createElement('div');
+  elFoco.className = 'hud-foco oculto';
+  root.appendChild(elFoco);
+
+  const elFocoTexto = document.createElement('span');
+  elFocoTexto.className = 'hud-foco-texto';
+  elFoco.appendChild(elFocoTexto);
+
+  const elFocoAccion = document.createElement('span');
+  elFocoAccion.className = 'hud-foco-accion oculto';
+  elFoco.appendChild(elFocoAccion);
+
+  // Ayuda contextual mínima del polímetro. No decide nada del diagnóstico.
+  const panelAyuda = document.createElement('div');
+  panelAyuda.className = 'hud-ayuda oculto';
+  panelAyuda.setAttribute('role', 'dialog');
+  panelAyuda.setAttribute('aria-modal', 'false');
+  panelAyuda.setAttribute('aria-label', 'Ayuda del polímetro');
+  panelAyuda.setAttribute('aria-hidden', 'true');
+  panelAyuda.innerHTML = `
+    <div class="hud-ayuda-titulo">Cómo usar el polímetro</div>
+    <ol class="hud-ayuda-lista">
+      <li><b>V/Ω</b> cambia entre voltaje y continuidad.</li>
+      <li><b>Sonda</b> alterna roja/negra.</li>
+      <li>Ponte delante de un punto y pulsa <b>A</b> / <b>Enter</b>.</li>
+      <li>La roja mide; la negra es la referencia (tierra si no la colocas).</li>
+      <li>La lectura aparece aquí. <b>B</b> abre la bitácora.</li>
+    </ol>
+    <p class="hud-ayuda-nota">La bitácora registra tu hipótesis; no la valida.</p>
+    <div class="hud-leyenda">
+      <div class="hud-leyenda-item"><span class="hud-leyenda-chip chip-fuente"></span>Batería</div>
+      <div class="hud-leyenda-item"><span class="hud-leyenda-chip chip-interruptor"></span>Interruptor</div>
+      <div class="hud-leyenda-item"><span class="hud-leyenda-chip chip-carga"></span>Bombilla</div>
+      <div class="hud-leyenda-item"><span class="hud-leyenda-chip chip-medida"></span>Punto de medida</div>
+    </div>
+    <button type="button" class="hud-btn hud-ayuda-cerrar">Cerrar</button>
+  `;
+  root.appendChild(panelAyuda);
+
+  const bCerrarAyuda = panelAyuda.querySelector('.hud-ayuda-cerrar');
 
   // Panel de bitácora.
   const panelBitacora = document.createElement('div');
@@ -195,6 +274,78 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
     return n ? n.nombre : id;
   }
 
+  function cerrarObjetivo() {
+    elObjetivo.classList.add('cerrado');
+    bAbrirObjetivo.classList.remove('oculto');
+  }
+
+  function abrirObjetivo() {
+    elObjetivo.classList.remove('cerrado');
+    bAbrirObjetivo.classList.add('oculto');
+  }
+
+  function cerrarAyuda() {
+    panelAyuda.classList.add('oculto');
+    panelAyuda.setAttribute('aria-hidden', 'true');
+  }
+
+  function abrirAyuda() {
+    if (bitacoraAbierta) return;
+    panelAyuda.classList.remove('oculto');
+    panelAyuda.setAttribute('aria-hidden', 'false');
+  }
+
+  function toggleAyuda() {
+    if (bitacoraAbierta) return;
+    if (panelAyuda.classList.contains('oculto')) abrirAyuda();
+    else cerrarAyuda();
+  }
+
+  function textoFoco(foco) {
+    if (!foco) return null;
+    if (foco.tipo === 'medida' && foco.nodo) {
+      return {
+        texto: `Punto de medida: ${nombreDeNodo(foco.nodo, nombres)}`,
+        accion: 'A / Enter para medir',
+      };
+    }
+    if (foco.componente) {
+      return {
+        texto: `Componente: ${nombreDeComponente(foco.ref)}`,
+        accion: foco.componente.tipo === 'interruptor' ? 'A / Enter para accionar' : '',
+      };
+    }
+    return null;
+  }
+
+  function actualizarFoco(foco) {
+    const info = textoFoco(foco);
+    if (!info) {
+      elFoco.classList.add('oculto');
+      elFocoTexto.textContent = '';
+      elFocoAccion.textContent = '';
+      elFocoAccion.classList.add('oculto');
+      return;
+    }
+    elFoco.classList.remove('oculto');
+    if (elFocoTexto.textContent !== info.texto) elFocoTexto.textContent = info.texto;
+    elFocoAccion.textContent = info.accion;
+    elFocoAccion.classList.toggle('oculto', !info.accion);
+  }
+
+  bCerrarObjetivo.addEventListener('click', cerrarObjetivo);
+  bAbrirObjetivo.addEventListener('click', abrirObjetivo);
+  bAyuda.addEventListener('click', toggleAyuda);
+  bCerrarAyuda.addEventListener('click', cerrarAyuda);
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'F1' || e.key === '?') {
+      e.preventDefault();
+      toggleAyuda();
+    } else if (e.key === 'Escape' && !panelAyuda.classList.contains('oculto')) {
+      cerrarAyuda();
+    }
+  });
+
   function actualizarBitacora() {
     filas.forEach((f, i) => f.classList.toggle('seleccionada', i === seleccion));
     const diags = actions.getDiagnosticos();
@@ -253,8 +404,12 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
     moverSeleccion,
     confirmarSeleccion,
     finalizar,
-    render({ multimeter, sistema, estado, referencia, objetivo }) {
-      if (objetivo) elObjetivo.textContent = objetivo;
+    render({ multimeter, sistema, estado, referencia, objetivo, foco = null }) {
+      if (objetivo && elObjetivoTexto.textContent !== objetivo) {
+        elObjetivoTexto.textContent = objetivo;
+        elObjetivoTexto.title = objetivo;
+        elObjetivo.title = objetivo;
+      }
 
       const modo = multimeter.getModo();
       const activa = multimeter.getSondaActiva();
@@ -263,9 +418,19 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
       elModo.textContent = `Polímetro · ${modo === 'voltaje' ? 'Voltaje (V)' : 'Continuidad (Ω)'}`;
       elModo.classList.toggle('modo-continuidad', modo === 'continuidad');
 
-      filaRoja.textContent = `Roja: ${sondas.roja ? nombreDeNodo(sondas.roja, nombres) : 'sin colocar'}`;
+      const textoRoja = `R → ${sondas.roja ? nombreDeNodo(sondas.roja, nombres) : 'sin colocar'}`;
+      const refTexto = sondas.negra
+        ? nombreDeNodo(sondas.negra, nombres)
+        : referencia
+          ? `tierra (${nombreDeNodo(referencia, nombres)})`
+          : 'tierra';
+      const textoNegra = `N → ${refTexto}`;
+
+      filaRoja.textContent = textoRoja;
+      filaRoja.title = textoRoja;
       filaRoja.classList.toggle('activa', activa === 'roja');
-      filaNegra.textContent = `Negra: ${sondas.negra ? nombreDeNodo(sondas.negra, nombres) : 'tierra (por defecto)'}`;
+      filaNegra.textContent = textoNegra;
+      filaNegra.title = textoNegra;
       filaNegra.classList.toggle('activa', activa === 'negra');
 
       let resultado = null;
@@ -274,7 +439,15 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
       } catch (e) {
         resultado = { valido: false, razon: 'estado_incompleto' };
       }
-      elLectura.textContent = textoResultado(resultado);
+      const textoLectura = textoResultado(resultado);
+      elLectura.textContent = textoLectura;
+      elLectura.title = textoLectura;
+      elLectura.classList.remove('lectura-valida', 'lectura-invalida', 'lectura-pendiente');
+      if (resultado === null) elLectura.classList.add('lectura-pendiente');
+      else if (resultado.valido) elLectura.classList.add('lectura-valida');
+      else elLectura.classList.add('lectura-invalida');
+
+      actualizarFoco(foco);
 
       // Límite de playtest: 10 minutos.
       if (!finalizada && performance.now() - inicioMs >= 600000) finalizar();

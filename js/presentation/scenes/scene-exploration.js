@@ -25,19 +25,24 @@ export function createSceneExploration({
     return (sistemas && sistemas[sistemaId] && sistemas[sistemaId].components) || {};
   }
 
-  function interactuar() {
+  function resolverFoco() {
     const front = actions.getCeldaFrontal();
     const resueltos = map.getInteractablesResueltos(sistema);
-    const it = resueltos.find((i) => i.x === front.x && i.y === front.y);
-    if (!it) return;
+    const foco = resueltos.find((i) => i.x === front.x && i.y === front.y) || null;
+    return { front, resueltos, foco };
+  }
 
-    if (it.tipo === 'medida') {
-      if (it.nodo) multimeter.colocarSonda(it.nodo);
+  function interactuar() {
+    const { foco } = resolverFoco();
+    if (!foco) return;
+
+    if (foco.tipo === 'medida') {
+      if (foco.nodo) multimeter.colocarSonda(foco.nodo);
       return;
     }
 
-    if (it.componente && it.componente.tipo === 'interruptor') {
-      actions.alternarInterruptor(sistemaId, it.ref);
+    if (foco.componente && foco.componente.tipo === 'interruptor') {
+      actions.alternarInterruptor(sistemaId, foco.ref);
     }
   }
 
@@ -90,6 +95,8 @@ export function createSceneExploration({
       tilemapRender.render(map);
       const jugador = actions.getJugador();
       const estado = estadoComponentes();
+      const { front, resueltos, foco } = resolverFoco();
+      const sondas = multimeter.getSondas();
 
       let voltajes = new Map();
       try {
@@ -99,15 +106,17 @@ export function createSceneExploration({
       }
 
       interactableRender.render({
-        interactables: map.getInteractablesResueltos(sistema),
-        celdaFrontal: actions.getCeldaFrontal(),
+        interactables: resueltos,
+        celdaFrontal: front,
         estado,
         voltajes,
+        sondas,
+        referencia,
       });
 
       spriteRender.renderPlayer(jugador.x, jugador.y, jugador.orientacion);
 
-      hud.render({ multimeter, sistema, estado, referencia, objetivo });
+      hud.render({ multimeter, sistema, estado, referencia, objetivo, foco });
     },
     enter() {},
     exit() {},
