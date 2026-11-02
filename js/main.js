@@ -23,10 +23,12 @@ const canvas = document.getElementById('game-canvas');
 const hudRoot = document.getElementById('hud');
 const renderer = createRenderer(canvas);
 
+const variant = new URLSearchParams(window.location.search).get('variant');
 const state = createState();
-state.replace(createInitialState());
+state.replace(createInitialState({ variant }));
 
-// Estado inicial del sistema: avería data-driven aplicada al contenido.
+// D1 aplicará la avería indicada por session.faultId.
+// Hasta D1 se mantiene la avería base existente.
 const estadoSistema = applyFault(sistemaCocina, faultCocina);
 state.patch(['systems', 'sistema-cocina', 'components'], estadoSistema);
 

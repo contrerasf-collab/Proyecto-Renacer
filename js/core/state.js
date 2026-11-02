@@ -66,7 +66,23 @@ export function createState() {
   };
 }
 
-export function createInitialState() {
+export const DEFAULT_VARIANT = 'sw_01';
+
+const FAULT_ID_BY_VARIANT = {
+  sw_01: 'interruptor-cocina-roto',
+  cable_01: 'cable-cocina-roto',
+  lamp_01: 'bombilla-cocina-rota',
+};
+
+export function resolveVariant(value) {
+  return typeof value === 'string' && Object.prototype.hasOwnProperty.call(FAULT_ID_BY_VARIANT, value)
+    ? value
+    : DEFAULT_VARIANT;
+}
+
+export function createInitialState({ variant = DEFAULT_VARIANT } = {}) {
+  const variantKey = resolveVariant(variant);
+
   return {
     jugador: {
       x: 10,
@@ -78,6 +94,11 @@ export function createInitialState() {
       diagnosticos: [],
     },
     systems: {},
-    session: {},
+    session: {
+      faultId: FAULT_ID_BY_VARIANT[variantKey],
+      finalizada: false,
+      verificado: false,
+      resuelto: false,
+    },
   };
 }
