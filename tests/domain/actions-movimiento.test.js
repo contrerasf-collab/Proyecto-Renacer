@@ -21,6 +21,23 @@ describe('Actions — movimiento y celda frontal', () => {
     expect(j).toMatchObject({ x: 9, y: 12, orientacion: 'izquierda' });
   });
 
+  it('moverJugador gira hacia una pared sin desplazarse', () => {
+    const state = createState();
+    state.replace(createInitialState());
+    const actions = createActions(state, {
+      isSolid: (x, y) => x === 10 && y === 12,
+    });
+
+    actions.moverJugador(0, -1);
+
+    expect(actions.getJugador()).toMatchObject({
+      x: 10,
+      y: 13,
+      orientacion: 'arriba',
+    });
+    expect(actions.getCeldaFrontal()).toEqual({ x: 10, y: 12 });
+  });
+
   it('getCeldaFrontal devuelve la celda correcta según orientación', () => {
     const actions = setup();
     // Orientación inicial: abajo.

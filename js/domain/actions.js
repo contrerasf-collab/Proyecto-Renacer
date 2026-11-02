@@ -11,7 +11,6 @@ export function createActions(state, map) {
       const jugador = state.get().jugador;
       const newX = jugador.x + dx;
       const newY = jugador.y + dy;
-      if (map.isSolid(newX, newY)) return;
 
       // Orientación: la previa persiste si dx === 0 && dy === 0.
       let orientacion = jugador.orientacion;
@@ -19,6 +18,14 @@ export function createActions(state, map) {
       else if (dy === 1) orientacion = 'abajo';
       else if (dx === -1) orientacion = 'izquierda';
       else if (dx === 1) orientacion = 'derecha';
+
+      // Empujar contra una pared no mueve, pero sí gira al jugador.
+      if (map.isSolid(newX, newY)) {
+        if (orientacion !== jugador.orientacion) {
+          state.set({ jugador: { ...jugador, orientacion } });
+        }
+        return;
+      }
 
       state.set({ jugador: { ...jugador, x: newX, y: newY, orientacion } });
     },
