@@ -94,6 +94,7 @@ Toda ADR nueva debe incluir:
 | ID | Título | Estado | Fecha | Ámbito | Sustituye | Relacionada |
 |---|---|---|---|---|---|---|
 | ADR-001 | Arquitectura pedagógica de RENACER | Congelado | 2026-11-02 | Pedagógico | — | Sprint 3, Q5, revisión curricular |
+| ADR-002 | Arquitectura de progresión de RENACER | Congelado | 2026-11-02 | Pedagógico | — | ADR-001 |
 
 ---
 
