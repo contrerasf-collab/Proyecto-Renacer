@@ -5,7 +5,7 @@ import { createRenderer } from './core/render.js';
 import { createMap } from './domain/world/map.js';
 import { createActions } from './domain/actions.js';
 import { createElectricalSystem } from './domain/systems/electrical.js';
-import { applyFault } from './domain/systems/faults.js';
+import { applyFaultById } from './domain/systems/faults.js';
 import { createTilemapRender } from './presentation/render/tilemap-render.js';
 import { createSpriteRender } from './presentation/render/sprite-render.js';
 import { createInteractableRender } from './presentation/render/interactable-render.js';
@@ -17,7 +17,9 @@ import { createHud } from './presentation/ui/hud.js';
 import mapaRemansoJson from '../content/maps/remanso-exterior.json';
 import mapaCocinaJson from '../content/maps/cocina.json';
 import sistemaCocina from '../content/systems/sistema-cocina.json';
-import faultCocina from '../content/faults/interruptor-cocina-roto.json';
+import faultInterruptor from '../content/faults/interruptor-cocina-roto.json';
+import faultCable from '../content/faults/cable-cocina-roto.json';
+import faultBombilla from '../content/faults/bombilla-cocina-rota.json';
 
 const canvas = document.getElementById('game-canvas');
 const hudRoot = document.getElementById('hud');
@@ -27,9 +29,17 @@ const variant = new URLSearchParams(window.location.search).get('variant');
 const state = createState();
 state.replace(createInitialState({ variant }));
 
-// D1 aplicará la avería indicada por session.faultId.
-// Hasta D1 se mantiene la avería base existente.
-const estadoSistema = applyFault(sistemaCocina, faultCocina);
+const FAULTS_BY_ID = {
+  'interruptor-cocina-roto': faultInterruptor,
+  'cable-cocina-roto': faultCable,
+  'bombilla-cocina-rota': faultBombilla,
+};
+
+const estadoSistema = applyFaultById(
+  sistemaCocina,
+  state.get().session.faultId,
+  FAULTS_BY_ID
+);
 state.patch(['systems', 'sistema-cocina', 'components'], estadoSistema);
 
 const input = createInput(window);

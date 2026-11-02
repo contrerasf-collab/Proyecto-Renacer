@@ -3,5 +3,9 @@
   "nombre": "Cable de cocina roto por dentro",
   "componenteRef": "cable_01",
   "tipo": "roto_por_dentro",
-  "parametros": {}
+  "parametros": {},
+  "verificacion": {
+    "tipo": "luz_encendida",
+    "componenteRef": "lamp_01"
+  }
 }

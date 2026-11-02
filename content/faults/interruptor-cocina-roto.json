@@ -3,5 +3,9 @@
   "nombre": "Interruptor de cocina roto por dentro",
   "componenteRef": "sw_01",
   "tipo": "roto_por_dentro",
-  "parametros": {}
+  "parametros": {},
+  "verificacion": {
+    "tipo": "luz_encendida",
+    "componenteRef": "lamp_01"
+  }
 }

@@ -28,6 +28,16 @@ export function createEstadoSano(systemContent) {
   return estado;
 }
 
+export function applyFaultById(
+  systemContent,
+  faultId,
+  faultsById,
+  fallbackId = 'interruptor-cocina-roto'
+) {
+  const fault = faultsById?.[faultId] || faultsById?.[fallbackId] || null;
+  return applyFault(systemContent, fault);
+}
+
 export function applyFault(systemContent, faultContent) {
   const estado = createEstadoSano(systemContent);
   if (!faultContent) return estado;

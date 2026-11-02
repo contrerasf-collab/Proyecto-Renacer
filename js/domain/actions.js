@@ -1,3 +1,5 @@
+import { verificarSistema } from './systems/verification.js';
+
 const DELTA_POR_ORIENTACION = {
   arriba: { dx: 0, dy: -1 },
   abajo: { dx: 0, dy: 1 },
@@ -59,6 +61,53 @@ export function createActions(state, map) {
       if (comp.posicion !== 'on' && comp.posicion !== 'off') return;
       const nueva = comp.posicion === 'on' ? 'off' : 'on';
       state.patch(['systems', sistemaId, 'components', componenteId, 'posicion'], nueva);
+    },
+    repararComponente(sistemaId, componenteId) {
+      const actual = state.get();
+      const session = actual.session || {};
+
+      if (session.finalizada) return { ok: false, razon: 'finalizada' };
+      if (session.resuelto) return { ok: false, razon: 'resuelto' };
+
+      const diagnosticos = actual.flags.diagnosticos || [];
+      const hipotesis = diagnosticos[diagnosticos.length - 1];
+      if (!hipotesis) return { ok: false, razon: 'sin_hipotesis' };
+      if (hipotesis.systemId !== sistemaId || hipotesis.componenteId !== componenteId) {
+        return { ok: false, razon: 'componente_distinto' };
+      }
+
+      const componentes = actual.systems?.[sistemaId]?.components;
+      const comp = componentes?.[componenteId];
+      if (!comp) return { ok: false, razon: 'componente_inexistente' };
+      if (comp.roto !== true) return { ok: false, razon: 'no_averiado' };
+
+      state.patch(['systems', sistemaId, 'components', componenteId], {
+        ...comp,
+        roto: false,
+        reparado: true,
+        operativo: true,
+        conduce: true,
+      });
+
+      return { ok: true };
+    },
+    verificarYResolver({ sistema, estado, referencia, verificacion }) {
+      const actual = state.get();
+      const session = actual.session || {};
+
+      if (session.finalizada) return { ok: false, razon: 'finalizada' };
+      if (session.resuelto) return { ok: false, razon: 'resuelto' };
+
+      const verificado = verificarSistema(sistema, estado, referencia, verificacion);
+      if (!verificado) return { ok: false, razon: 'no_verificado' };
+
+      state.patch(['session'], {
+        ...session,
+        verificado: true,
+        resuelto: true,
+      });
+
+      return { ok: true };
     },
     entrarMapa(mapaId, posicion) {
       const jugador = state.get().jugador;
