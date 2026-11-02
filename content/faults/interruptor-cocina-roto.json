@@ -1,0 +1,7 @@
+{
+  "id": "interruptor-cocina-roto",
+  "nombre": "Interruptor de cocina roto por dentro",
+  "componenteRef": "sw_01",
+  "tipo": "roto_por_dentro",
+  "parametros": {}
+}

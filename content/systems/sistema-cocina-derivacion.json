@@ -1,0 +1,76 @@
+{
+  "id": "sistema-cocina-derivacion",
+  "nombre": "Circuito de la cocina (serie con derivación)",
+  "tipo": "electrico",
+  "referencia": "bat_01.negativo",
+  "componentes": [
+    {
+      "id": "bat_01",
+      "tipo": "fuente",
+      "subtipo": "bateria",
+      "propiedades": { "voltaje": 12 },
+      "bornes": [
+        { "id": "positivo", "polaridad": "positivo" },
+        { "id": "negativo", "polaridad": "negativo" }
+      ]
+    },
+    {
+      "id": "cable_01",
+      "tipo": "conductor",
+      "propiedades": { "resistencia": 0 },
+      "bornes": [
+        { "id": "a", "polaridad": "positivo" },
+        { "id": "b", "polaridad": "negativo" }
+      ]
+    },
+    {
+      "id": "sw_01",
+      "tipo": "interruptor",
+      "subtipo": "interruptor_simple",
+      "propiedades": { "resistencia": 0 },
+      "bornes": [
+        { "id": "entrada", "polaridad": "positivo" },
+        { "id": "salida", "polaridad": "negativo" }
+      ]
+    },
+    {
+      "id": "lamp_01",
+      "tipo": "carga",
+      "subtipo": "bombilla",
+      "propiedades": { "resistencia": 240 },
+      "bornes": [
+        { "id": "entrada", "polaridad": "positivo" },
+        { "id": "salida", "polaridad": "negativo" }
+      ]
+    },
+    {
+      "id": "lamp_02",
+      "tipo": "carga",
+      "subtipo": "bombilla",
+      "propiedades": { "resistencia": 240 },
+      "bornes": [
+        { "id": "entrada", "polaridad": "positivo" },
+        { "id": "salida", "polaridad": "negativo" }
+      ]
+    },
+    {
+      "id": "cable_02",
+      "tipo": "conductor",
+      "propiedades": { "resistencia": 0 },
+      "bornes": [
+        { "id": "a", "polaridad": "positivo" },
+        { "id": "b", "polaridad": "negativo" }
+      ]
+    }
+  ],
+  "conexiones": [
+    { "desde": "bat_01.positivo", "hacia": "cable_01.a" },
+    { "desde": "cable_01.b", "hacia": "sw_01.entrada" },
+    { "desde": "sw_01.salida", "hacia": "lamp_01.entrada" },
+    { "desde": "sw_01.salida", "hacia": "lamp_02.entrada" },
+    { "desde": "lamp_01.salida", "hacia": "cable_02.a" },
+    { "desde": "lamp_02.salida", "hacia": "cable_02.a" },
+    { "desde": "cable_02.b", "hacia": "bat_01.negativo" }
+  ],
+  "efectos": []
+}

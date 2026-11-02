@@ -1,0 +1,548 @@
+# RENACER_VISION_UNIFICADA_v2.0
+
+**Versión:** 2.0  
+**Estado:** Vigente  
+**Propósito:** Documento maestro de dirección del proyecto. Sustituye las partes incompatibles del GDD y TDD originales cuando exista conflicto.  
+**Fecha:** Octubre 2026
+
+---
+
+# 1. Declaración de visión
+
+RENACER es un juego de exploración y diagnóstico técnico ambientado en una comunidad post-colapso llamada Remanso.
+
+El jugador no es un héroe elegido.
+
+Es un aprendiz.
+
+Su función consiste en comprender sistemas averiados mediante observación, medición y razonamiento técnico para devolver servicios esenciales a la comunidad.
+
+El juego no trata sobre estudiar teoría.
+
+El juego trata sobre resolver problemas reales.
+
+La comprensión técnica aparece como consecuencia natural de la experiencia de juego.
+
+No existe separación entre aprendizaje y jugabilidad.
+
+El aprendizaje ocurre porque el jugador necesita entender cómo funciona un sistema para poder ayudar a alguien.
+
+---
+
+# 2. Identidad del proyecto
+
+## Lo que RENACER es
+
+- Juego de diagnóstico técnico.
+- Juego de exploración narrativa.
+- Juego de reparación de sistemas.
+- Juego basado en observación y razonamiento.
+- Juego ambientado en una comunidad viva.
+- Juego inspirado en la FP real.
+- RPG narrativo sin combate.
+
+## Lo que RENACER no es
+
+- Simulador puro de electricidad.
+- Curso interactivo.
+- Cuestionario disfrazado.
+- Juego centrado en magnetismo.
+- Juego de supervivencia.
+- Juego de gestión.
+- Juego de combate.
+- Visual novel educativa.
+
+---
+
+# 3. Fantasía principal del jugador
+
+La fantasía central es:
+
+> Convertirse en la persona a la que todos recurren cuando algo deja de funcionar.
+
+Evolución emocional:
+
+## Inicio
+
+"No sé nada. Solo puedo observar."
+
+## Primeras reparaciones
+
+"Empiezo a entender lo que ocurre."
+
+## Desarrollo
+
+"Puedo encontrar problemas que otros no ven."
+
+## Consolidación
+
+"Las personas confían en mí."
+
+## Futuro
+
+"Soy quien mantiene vivo Remanso."
+
+---
+
+# 4. Núcleo jugable
+
+El núcleo definitivo de RENACER es:
+
+```text
+Observar
+↓
+Medir
+↓
+Diagnosticar
+↓
+Reparar
+↓
+Verificar
+↓
+Ayudar
+```
+
+Todo el contenido futuro debe reforzar este ciclo.
+
+Si una mecánica no lo refuerza, debe ser eliminada o replanteada.
+
+---
+
+# 5. El polímetro
+
+## Decisión
+
+El polímetro es la herramienta central del juego.
+
+## Justificación
+
+Porque transforma:
+
+```text
+"No funciona"
+```
+
+en
+
+```text
+"¿Por qué no funciona?"
+```
+
+El polímetro no resuelve problemas.
+
+Proporciona información.
+
+El razonamiento sigue perteneciendo al jugador.
+
+## Rol
+
+El polímetro ocupa en RENACER el mismo papel que:
+
+- la espada en Zelda
+- la Pokéball en Pokémon
+- la Portal Gun en Portal
+
+Es la herramienta que articula la interacción principal con el mundo.
+
+---
+
+# 6. El diagnóstico como identidad
+
+## Decisión
+
+El diagnóstico sustituye definitivamente al antiguo concepto de "comprensión" como actividad principal.
+
+## Nueva formulación
+
+Antes:
+
+```text
+Comprender para avanzar
+```
+
+Ahora:
+
+```text
+Diagnosticar para ayudar
+```
+
+La comprensión deja de ser objetivo explícito.
+
+La comprensión pasa a ser una consecuencia.
+
+---
+
+# 7. Magnetismo
+
+## Decisión
+
+El magnetismo deja de ser el tema central.
+
+## Nuevo papel
+
+El magnetismo pasa a ser:
+
+- contenido técnico
+- sistema específico
+- tipo de problema
+
+Nunca identidad principal.
+
+## Ejemplos
+
+Aparecerá en:
+
+- altavoces
+- electroimanes
+- relés
+- motores
+- alternadores
+
+Igual que cualquier otro concepto técnico.
+
+---
+
+# 8. Sistemas de conocimiento eliminados
+
+Quedan eliminados como sistemas principales:
+
+- Observaciones O01-O47
+- Principios P01-P10
+- Reflexiones con distractores
+- Cuaderno de Campo pedagógico
+- Hipótesis evaluadas
+- Registro de aciertos
+
+Motivo:
+
+Generan sensación de evaluación.
+
+Contradicen el principio:
+
+> El jugador nunca debe sentir que está haciendo un examen.
+
+---
+
+# 9. Bitácora del Aprendiz
+
+Sustituye al antiguo Cuaderno de Campo.
+
+## Función
+
+Registrar:
+
+- reparaciones realizadas
+- mediciones importantes
+- sistemas descubiertos
+- herramientas obtenidas
+
+## Lo que NO hace
+
+- evaluar
+- corregir
+- puntuar
+- examinar
+
+Es memoria.
+
+No es un cuaderno escolar.
+
+---
+
+# 10. Comunidad de Remanso
+
+La comunidad es la razón de existir del gameplay.
+
+No se reparan sistemas porque sí.
+
+Se reparan porque alguien los necesita.
+
+Cada misión debe partir de:
+
+## Una necesidad humana
+
+Ejemplos:
+
+- luz
+- agua
+- refrigeración
+- comunicación
+- seguridad
+- movilidad
+
+## Nunca de una necesidad técnica
+
+Incorrecto:
+
+```text
+Arregla un relé.
+```
+
+Correcto:
+
+```text
+La nevera de la médica ha dejado de funcionar.
+```
+
+---
+
+# 11. Gameplay Loop
+
+## Bucle principal
+
+```text
+NPC necesita ayuda
+↓
+Jugador investiga
+↓
+Observa sistema
+↓
+Mide
+↓
+Genera hipótesis
+↓
+Reduce opciones
+↓
+Identifica avería
+↓
+Repara
+↓
+Comprueba resultado
+↓
+El mundo cambia
+```
+
+## Duración ideal
+
+Entre 10 y 20 minutos por problema.
+
+---
+
+# 12. Taxonomía oficial de averías
+
+La variedad del juego no proviene de añadir más componentes.
+
+Proviene de añadir más tipos de fallo.
+
+## Tipo A
+
+Componente roto.
+
+## Tipo B
+
+Conexión defectuosa.
+
+## Tipo C
+
+Valor incorrecto.
+
+## Tipo D
+
+Componente incorrecto.
+
+## Tipo E
+
+Fallo intermitente.
+
+## Tipo F
+
+Múltiples fallos simultáneos.
+
+Todo nuevo contenido deberá encajar en una o varias categorías.
+
+---
+
+# 13. Filosofía educativa
+
+## Principio 1
+
+El jugador aprende haciendo.
+
+## Principio 2
+
+El fallo proporciona información.
+
+## Principio 3
+
+Nunca se castiga la experimentación.
+
+## Principio 4
+
+La teoría aparece cuando es necesaria.
+
+## Principio 5
+
+La narrativa da contexto.
+
+## Principio 6
+
+La ayuda se ofrece mediante preguntas.
+
+Nunca mediante respuestas.
+
+---
+
+# 14. Papel de Ansel
+
+Ansel deja de ser profesor.
+
+Ansel pasa a ser mentor.
+
+## Prohibido
+
+```text
+Haz esto.
+Mide aquí.
+La solución es...
+```
+
+## Permitido
+
+```text
+¿Qué has medido?
+
+¿Qué esperabas encontrar?
+
+¿Tiene sentido lo que has visto?
+```
+
+---
+
+# 15. MVP definitivo
+
+## Mapas
+
+- Remanso exterior
+- Cocina comunitaria
+- Taller de Ansel
+- Cementerio de coches
+- Bosque
+
+## NPCs
+
+- Elvira
+- Teresa
+- Ansel
+- Anciano
+
+## Herramientas
+
+- Polímetro
+- Alicates
+- Destornillador
+
+## Encargos
+
+1. Cena comunitaria
+2. Faro
+3. Ventilador
+
+## Tipos de fallo
+
+1. Interruptor roto
+2. Cable defectuoso
+3. Valor incorrecto
+
+Duración objetivo:
+
+30-45 minutos.
+
+---
+
+# 16. Elementos eliminados del MVP
+
+- Facciones
+- Reputación
+- Banco de pruebas
+- 7 decisiones mayores
+- 5 epílogos
+- Reloj de 60 días
+- Índice de Luz
+- Modos de asistencia
+- Sistema de pistas multinivel
+- Modo Aula
+- Retos de eficiencia
+- Secretos
+- Cuaderno pedagógico
+- Sistema de evaluación
+
+---
+
+# 17. Arquitectura validada
+
+Se mantiene:
+
+- Contenido como datos.
+- JSON para contenido.
+- Estado único.
+- Flags de progreso.
+- ES Modules.
+- Build final single-file.
+- Arquitectura modular.
+- Event Bus de dominio.
+- Separación contenido / lógica.
+
+Se aplaza:
+
+- Sistemas hidráulicos.
+- Sistemas mecánicos avanzados.
+- Reputación.
+- Narrativa de gran escala.
+
+---
+
+# 18. Regla de desarrollo
+
+A partir de este documento:
+
+## Está prohibido
+
+Agregar:
+
+- nuevas mecánicas principales
+- nuevos pilares
+- nuevos núcleos jugables
+
+sin validación previa mediante prototipo.
+
+## Está permitido
+
+Agregar:
+
+- nuevos mapas
+- nuevos NPCs
+- nuevos fallos
+- nuevos sistemas
+- nuevas misiones
+
+si reutilizan el mismo núcleo jugable.
+
+---
+
+# 19. Criterio de éxito
+
+RENACER será considerado exitoso cuando un alumno pueda decir:
+
+> "He encontrado el problema porque he medido y he pensado como un técnico."
+
+Y no:
+
+> "He acertado la respuesta correcta."
+
+---
+
+# 20. Declaración final
+
+RENACER es un juego de diagnóstico técnico ambientado en una comunidad post-colapso.
+
+El jugador no estudia conceptos.
+
+Resuelve problemas.
+
+No aprende para avanzar.
+
+Avanza porque aprende.
+
+Todo sistema futuro deberá respetar esta premisa.
+
+Si un nuevo sistema contradice esta visión, este documento tiene prioridad.

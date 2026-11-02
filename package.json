@@ -1,0 +1,18 @@
+{
+  "name": "renacer",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "RENACER — juego de diagnóstico técnico",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "validate": "node tools/validate-content.js"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "vite-plugin-singlefile": "^2.0.0",
+    "vitest": "^1.0.0"
+  }
+}

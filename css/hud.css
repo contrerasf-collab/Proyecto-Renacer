@@ -1,0 +1,253 @@
+#hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #E8EEF0;
+  font-size: 12px;
+  user-select: none;
+}
+
+#hud button {
+  pointer-events: auto;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+#hud .oculto {
+  display: none !important;
+}
+
+/* Objetivo */
+.hud-objetivo {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  max-width: 300px;
+  padding: 6px 8px;
+  background: rgba(11, 14, 17, 0.82);
+  border: 1px solid #2A323A;
+  border-radius: 4px;
+  color: #C9D4DA;
+  line-height: 1.3;
+}
+
+/* Polímetro */
+.hud-panel {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 170px;
+  padding: 8px;
+  background: rgba(11, 14, 17, 0.88);
+  border: 1px solid #2A323A;
+  border-radius: 6px;
+}
+
+.hud-modo {
+  font-weight: 700;
+  color: #F2B134;
+  margin-bottom: 4px;
+}
+
+.hud-modo.modo-continuidad {
+  color: #7BC8F6;
+}
+
+.hud-sondas {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 6px;
+}
+
+.hud-sonda {
+  color: #8A9AA3;
+  font-size: 11px;
+  padding: 1px 3px;
+  border-radius: 3px;
+}
+
+.hud-sonda.activa {
+  color: #E8EEF0;
+  background: #22303A;
+}
+
+.hud-lectura {
+  font-family: ui-monospace, monospace;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  padding: 4px;
+  background: #05080A;
+  border: 1px solid #2A323A;
+  border-radius: 4px;
+  color: #7BE38A;
+  min-height: 26px;
+}
+
+/* Controles táctiles */
+.hud-touch {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 8px;
+}
+
+.hud-dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 44px);
+  grid-template-rows: repeat(2, 44px);
+  gap: 4px;
+}
+
+.hud-btn {
+  background: rgba(34, 48, 58, 0.92);
+  color: #E8EEF0;
+  border: 1px solid #3C4C58;
+  border-radius: 6px;
+  font-size: 12px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 6px;
+}
+
+.hud-btn:active {
+  background: #3C4C58;
+}
+
+.dpad-arriba {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.dpad-izquierda {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.dpad-derecha {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.dpad-abajo {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.hud-acciones {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 6px;
+  align-items: end;
+}
+
+.btn-accion {
+  width: 56px;
+  height: 56px;
+  font-size: 20px;
+  font-weight: 700;
+  background: rgba(242, 177, 52, 0.9);
+  color: #14181C;
+  border-color: #F2B134;
+}
+
+.btn-finalizar {
+  background: rgba(120, 60, 60, 0.9);
+  border-color: #7A4040;
+}
+
+/* Bitácora */
+.hud-bitacora {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  max-height: 380px;
+  overflow: auto;
+  background: rgba(11, 14, 17, 0.96);
+  border: 1px solid #3C4C58;
+  border-radius: 8px;
+  padding: 10px;
+  pointer-events: auto;
+}
+
+.hud-bitacora-titulo {
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #F2B134;
+}
+
+.hud-bitacora-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.hud-bitacora-fila {
+  text-align: left;
+  padding: 10px;
+  min-height: 44px;
+  background: #1A2228;
+  color: #E8EEF0;
+  border: 1px solid #2A323A;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.hud-bitacora-fila.seleccionada {
+  border-color: #F2B134;
+  background: #2A323A;
+}
+
+.hud-bitacora-mensaje {
+  color: #7BE38A;
+  min-height: 16px;
+  margin-bottom: 4px;
+}
+
+.hud-bitacora-registros {
+  color: #8A9AA3;
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+
+.hud-bitacora-acciones {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-confirmar {
+  flex: 1;
+  background: #2C6E3A;
+  border-color: #3C8A4C;
+  color: #E8EEF0;
+}
+
+.btn-cerrar {
+  flex: 1;
+}
+
+/* Fin de sesión */
+.hud-final {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 14px 18px;
+  background: rgba(11, 14, 17, 0.97);
+  border: 1px solid #F2B134;
+  border-radius: 8px;
+  color: #E8EEF0;
+  font-size: 14px;
+  text-align: center;
+  pointer-events: auto;
+}
