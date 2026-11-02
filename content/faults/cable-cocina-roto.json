@@ -1,0 +1,7 @@
+{
+  "id": "cable-cocina-roto",
+  "nombre": "Cable de cocina roto por dentro",
+  "componenteRef": "cable_01",
+  "tipo": "roto_por_dentro",
+  "parametros": {}
+}

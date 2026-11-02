@@ -1,5 +1,9 @@
 {
   "maps": ["remanso-exterior", "cocina"],
   "systems": ["sistema-cocina", "sistema-cocina-derivacion"],
-  "faults": ["interruptor-cocina-roto"]
+  "faults": [
+    "interruptor-cocina-roto",
+    "cable-cocina-roto",
+    "bombilla-cocina-rota"
+  ]
 }

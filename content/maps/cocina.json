@@ -53,6 +53,8 @@
   ],
   "interactables": [
     { "ref": "bat_01", "x": 0, "y": 3, "tipo": "componente" },
+    { "ref": "bat_01", "x": 0, "y": 2, "tipo": "medida", "nodo": "bat_01.positivo" },
+    { "ref": "cable_01", "x": 1, "y": 3, "tipo": "componente" },
     { "ref": "lamp_01", "x": 6, "y": 0, "tipo": "componente" },
     { "ref": "sw_01", "x": 10, "y": 0, "tipo": "componente" },
     { "ref": "sw_01", "x": 9, "y": 0, "tipo": "medida", "nodo": "sw_01.entrada" },

@@ -1,0 +1,7 @@
+{
+  "id": "bombilla-cocina-rota",
+  "nombre": "Bombilla de cocina rota por dentro",
+  "componenteRef": "lamp_01",
+  "tipo": "roto_por_dentro",
+  "parametros": {}
+}
