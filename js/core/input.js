@@ -15,6 +15,7 @@ const KEY_MAP = {
   KeyP: 'polimetro',
   Tab: 'sonda',
   KeyB: 'bitacora',
+  KeyR: 'reparar',
   KeyF: 'finalizar',
 };
 

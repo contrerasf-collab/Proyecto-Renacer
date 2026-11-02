@@ -35,6 +35,7 @@ const FAULTS_BY_ID = {
   'bombilla-cocina-rota': faultBombilla,
 };
 
+const faultActiva = FAULTS_BY_ID[state.get().session.faultId] || faultInterruptor;
 const estadoSistema = applyFaultById(
   sistemaCocina,
   state.get().session.faultId,
@@ -85,6 +86,7 @@ const sceneExterior = createSceneExploration({
   sistema,
   sistemaId: 'sistema-cocina',
   referencia: sistemaCocina.referencia,
+  verificacion: faultActiva.verificacion,
   multimeter,
   hud,
   objetivo: 'Entra en la cocina: la luz no funciona.',
@@ -103,6 +105,7 @@ const sceneCocina = createSceneExploration({
   sistema,
   sistemaId: 'sistema-cocina',
   referencia: sistemaCocina.referencia,
+  verificacion: faultActiva.verificacion,
   multimeter,
   hud,
   objetivo: 'Cocina sin luz: mide y diagnostica.',

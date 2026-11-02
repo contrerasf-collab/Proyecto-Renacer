@@ -91,6 +91,11 @@ export function createActions(state, map) {
 
       return { ok: true };
     },
+    finalizarSesion() {
+      const session = state.get().session || {};
+      state.patch(['session'], { ...session, finalizada: true });
+      return { ok: true };
+    },
     verificarYResolver({ sistema, estado, referencia, verificacion }) {
       const actual = state.get();
       const session = actual.session || {};

@@ -185,6 +185,38 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
   elFocoAccion.className = 'hud-foco-accion oculto';
   elFoco.appendChild(elFocoAccion);
 
+  const bReparar = document.createElement('button');
+  bReparar.type = 'button';
+  bReparar.className = 'hud-foco-reparar oculto';
+  bReparar.textContent = 'R Reparar';
+  bReparar.setAttribute('aria-label', 'Reparar el componente registrado');
+  bReparar.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    input.press('reparar');
+  });
+  bReparar.addEventListener('pointerup', (e) => {
+    e.preventDefault();
+    input.release('reparar');
+  });
+  bReparar.addEventListener('pointerleave', () => input.release('reparar'));
+  elFoco.appendChild(bReparar);
+
+  const elAviso = document.createElement('div');
+  elAviso.className = 'hud-aviso oculto';
+  root.appendChild(elAviso);
+
+  let avisoTimer = null;
+
+  function mostrarAviso(texto) {
+    elAviso.textContent = texto;
+    elAviso.classList.remove('oculto');
+    if (avisoTimer !== null) clearTimeout(avisoTimer);
+    avisoTimer = setTimeout(() => {
+      elAviso.classList.add('oculto');
+      avisoTimer = null;
+    }, 2500);
+  }
+
   // Ayuda contextual mínima del polímetro. No decide nada del diagnóstico.
   const panelAyuda = document.createElement('div');
   panelAyuda.className = 'hud-ayuda oculto';
@@ -200,6 +232,7 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
       <li>Ponte delante de un punto y pulsa <b>A</b> / <b>Enter</b>.</li>
       <li>La roja mide; la negra es la referencia (tierra si no la colocas).</li>
       <li>La lectura aparece aquí. <b>B</b> abre la bitácora.</li>
+      <li><b>R</b> / <b>Reparar</b>: repara el componente que has registrado.</li>
     </ol>
     <p class="hud-ayuda-nota">La bitácora registra tu hipótesis; no la valida.</p>
     <div class="hud-leyenda">
@@ -318,19 +351,21 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
     return null;
   }
 
-  function actualizarFoco(foco) {
+  function actualizarFoco(foco, puedeReparar = false) {
     const info = textoFoco(foco);
     if (!info) {
       elFoco.classList.add('oculto');
       elFocoTexto.textContent = '';
       elFocoAccion.textContent = '';
       elFocoAccion.classList.add('oculto');
+      bReparar.classList.add('oculto');
       return;
     }
     elFoco.classList.remove('oculto');
     if (elFocoTexto.textContent !== info.texto) elFocoTexto.textContent = info.texto;
     elFocoAccion.textContent = info.accion;
     elFocoAccion.classList.toggle('oculto', !info.accion);
+    bReparar.classList.toggle('oculto', !puedeReparar);
   }
 
   bCerrarObjetivo.addEventListener('click', cerrarObjetivo);
@@ -387,6 +422,7 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
   function finalizar() {
     if (finalizada) return;
     finalizada = true;
+    actions.finalizarSesion();
     tiempoMs = performance.now() - inicioMs;
     diagnosticoFinal = actions.ultimoDiagnostico();
     const nombre = diagnosticoFinal ? nombreDeComponente(diagnosticoFinal.componenteId) : 'ninguno';
@@ -404,7 +440,8 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
     moverSeleccion,
     confirmarSeleccion,
     finalizar,
-    render({ multimeter, sistema, estado, referencia, objetivo, foco = null }) {
+    mostrarAviso,
+    render({ multimeter, sistema, estado, referencia, objetivo, foco = null, puedeReparar = false }) {
       // La ayuda nunca debe quedar superpuesta a la bitácora.
       if (bitacoraAbierta && !panelAyuda.classList.contains('oculto')) cerrarAyuda();
 
@@ -450,10 +487,7 @@ export function createHud({ root, input, actions, sistemaId, componentes }) {
       else if (resultado.valido) elLectura.classList.add('lectura-valida');
       else elLectura.classList.add('lectura-invalida');
 
-      actualizarFoco(foco);
-
-      // Límite de playtest: 10 minutos.
-      if (!finalizada && performance.now() - inicioMs >= 600000) finalizar();
+      actualizarFoco(foco, puedeReparar);
     },
   };
 }
