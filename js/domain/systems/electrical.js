@@ -9,6 +9,18 @@
 //
 // Este módulo no importa nada del resto del proyecto (hoja del grafo de dominio).
 
+// Identificador canónico de nodo. Único, reproducible y estable.
+// Formato: "<componenteId>.<borneId>".
+export function nodoCanonico(componenteId, borneId) {
+  if (typeof componenteId !== 'string' || componenteId.length === 0) {
+    throw new TypeError('nodoCanonico: componenteId debe ser una cadena no vacía');
+  }
+  if (typeof borneId !== 'string' || borneId.length === 0) {
+    throw new TypeError('nodoCanonico: borneId debe ser una cadena no vacía');
+  }
+  return `${componenteId}.${borneId}`;
+}
+
 export function createElectricalSystem(systemContent) {
   if (systemContent === null || systemContent === undefined) {
     return createNullSystem();
