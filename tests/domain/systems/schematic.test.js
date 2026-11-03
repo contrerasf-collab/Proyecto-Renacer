@@ -116,3 +116,65 @@ describe('crearEsquema', () => {
     expect(() => crearEsquema(invalido)).toThrow();
   });
 });
+
+describe('crearEsquema — layout determinista', () => {
+  it('es determinista entre ejecuciones', () => {
+    const a = crearEsquema(sistemaCocina).layout;
+    const b = crearEsquema(sistemaCocina).layout;
+    expect(JSON.stringify(a)).toBe(JSON.stringify(b));
+  });
+
+  it('cubre todos los componentes', () => {
+    const layout = crearEsquema(sistemaCocina).layout;
+    const idsLayout = layout.componentes.map((c) => c.id).sort();
+    const idsModelo = sistemaCocina.componentes.map((c) => c.id).sort();
+    expect(idsLayout).toEqual(idsModelo);
+  });
+
+  it('cubre todos los nodos como terminales', () => {
+    const esquema = crearEsquema(sistemaCocina);
+    const nodosTerminales = esquema.layout.terminales.map((t) => t.nodo).sort();
+    expect(nodosTerminales).toEqual([...esquema.nodos].sort());
+  });
+
+  it('las posiciones de componentes son únicas', () => {
+    const layout = crearEsquema(sistemaCocina).layout;
+    const claves = layout.componentes.map((c) => `${c.x},${c.y}`);
+    expect(new Set(claves).size).toBe(claves.length);
+  });
+
+  it('las posiciones de terminales son únicas', () => {
+    const layout = crearEsquema(sistemaCocina).layout;
+    const claves = layout.terminales.map((t) => `${t.x},${t.y}`);
+    expect(new Set(claves).size).toBe(claves.length);
+  });
+
+  it('las componentes siguen un orden de x no decreciente', () => {
+    const layout = crearEsquema(sistemaCocina).layout;
+    for (let i = 1; i < layout.componentes.length; i++) {
+      expect(layout.componentes[i].x).toBeGreaterThanOrEqual(layout.componentes[i - 1].x);
+    }
+  });
+
+  it('cada conexión une dos terminales existentes', () => {
+    const esquema = crearEsquema(sistemaCocina);
+    const nodosTerminales = new Set(esquema.layout.terminales.map((t) => t.nodo));
+    for (const con of esquema.conexiones) {
+      expect(nodosTerminales.has(con.desde)).toBe(true);
+      expect(nodosTerminales.has(con.hacia)).toBe(true);
+    }
+  });
+
+  it('la referencia tiene posición', () => {
+    const layout = crearEsquema(sistemaCocina).layout;
+    expect(layout.referencia).toMatchObject({ nodo: sistemaCocina.referencia });
+    expect(typeof layout.referencia.x).toBe('number');
+    expect(typeof layout.referencia.y).toBe('number');
+  });
+
+  it('no modifica el contenido de entrada al calcular layout', () => {
+    const original = JSON.parse(JSON.stringify(sistemaCocina));
+    crearEsquema(sistemaCocina);
+    expect(sistemaCocina).toEqual(original);
+  });
+});
